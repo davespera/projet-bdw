@@ -1,304 +1,194 @@
--- Table: Photo
-CREATE TABLE Photo (
-    titre VARCHAR(255) PRIMARY KEY,
-    descriptionP TEXT,
-    chemin VARCHAR(255)
+CREATE TABLE ASSEMBLAGE (
+  PRIMARY KEY (id_B, nom_C),
+  id_B  VARCHAR(42) NOT NULL,
+  nom_C VARCHAR(42) NOT NULL
 );
 
--- Table: Oficielle
-CREATE TABLE Oficielle (
-    CodeO INT PRIMARY KEY,
-    age_recommende INT,
-    nomO VARCHAR(255),
-    prixO DECIMAL(10, 2)
-);
-
--- Table: Etape
-CREATE TABLE Etape (
-    numero INT PRIMARY KEY,
-    image VARCHAR(255),
-    instruction TEXT
-);
-
--- Table: Brique
 CREATE TABLE Brique (
-    idB INT PRIMARY KEY,
-    nomB VARCHAR(255),
-    largeur DECIMAL(5, 2),
-    longueur DECIMAL(5, 2),
-    hauteur DECIMAL(5, 2),
-    forme VARCHAR(50),
-    couleur VARCHAR(50),
-    mots_cles TEXT
+  PRIMARY KEY (id_B),
+  id_B      VARCHAR(42) NOT NULL,
+  nom_B     VARCHAR(42),
+  largeur   VARCHAR(42),
+  longueur  VARCHAR(42),
+  hauteur   VARCHAR(42),
+  forme     VARCHAR(42),
+  couleur   VARCHAR(42),
+  mots_cles VARCHAR(42),
+  ville     VARCHAR(42) NOT NULL,
+  quantite  VARCHAR(42)
 );
 
--- Table: Substitution
-CREATE TABLE Substitution (
-    idS INT PRIMARY KEY,
-    nomS VARCHAR(255),
-    commentaire TEXT
-);
-
--- Table: Amateur
-CREATE TABLE Amateur (
-    nomA VARCHAR(255) PRIMARY KEY,
-    license VARCHAR(50)
-);
-
--- Table: Construction
-CREATE TABLE Construction (
-    nomC VARCHAR(255) PRIMARY KEY,
-    theme VARCHAR(100),
-    descriptionC TEXT,
-    anneC INT,
-    dimmension VARCHAR(50)
-);
-
--- Associative Table: Construction_Photo (COMPOSSE relationship between Construction and Etape)
-CREATE TABLE Construction_Photo (
-    construction_nomC VARCHAR(255),
-    etape_numero INT,
-    PRIMARY KEY (construction_nomC, etape_numero),
-    FOREIGN KEY (construction_nomC) REFERENCES Construction(nomC),
-    FOREIGN KEY (etape_numero) REFERENCES Etape(numero)
-);
-
--- Associative Table: Construction_Brique (ASSEMBLAGE relationship between Construction and Brique)
-CREATE TABLE Construction_Brique (
-    construction_nomC VARCHAR(255),
-    brique_idB INT,
-    PRIMARY KEY (construction_nomC, brique_idB),
-    FOREIGN KEY (construction_nomC) REFERENCES Construction(nomC),
-    FOREIGN KEY (brique_idB) REFERENCES Brique(idB)
-);
-
--- Table: Configuration
 CREATE TABLE Configuration (
-    propiete VARCHAR(255) PRIMARY KEY,
-    valeur VARCHAR(255)
+  PRIMARY KEY (propiete),
+  propiete   VARCHAR(42) NOT NULL,
+  valeur     VARCHAR(42),
+  date_debut VARCHAR(42) NOT NULL
 );
 
--- Table: Partie
-CREATE TABLE Partie (
-    idPartie INT SERIAL PRIMARY KEY,
-    date_debut DATE,
-    date_fin DATE
+CREATE TABLE Construction (
+  nom_C          VARCHAR(42) PRIMARY KEY,
+  theme          VARCHAR(42),
+  description_C  VARCHAR(42),
+  anne_C         VARCHAR(42),
+  dimmension     VARCHAR(42),
+  sexe           INTEGER NOT NULL CHECK (sexe >= 0),
+  Code_O         VARCHAR(42),
+  age_recommende VARCHAR(42),
+  nom_O          VARCHAR(42),
+  prix_O         VARCHAR(42),
+  nom_A          VARCHAR(42),
+  license        VARCHAR(42)
 );
 
--- Associative Table: Partie_Configuration (POSSEDE relationship between Partie and Configuration)
-CREATE TABLE Partie_Configuration (
-    partie_id INT,
-    configuration_propiete VARCHAR(255),
-    PRIMARY KEY (partie_id, configuration_propiete),
-    FOREIGN KEY (partie_id) REFERENCES Partie(idPartie),
-    FOREIGN KEY (configuration_propiete) REFERENCES Configuration(propiete)
+CREATE TABLE Etape (
+  PRIMARY KEY (numero),
+  numero      VARCHAR(42) NOT NULL,
+  image       VARCHAR(42),
+  instruction VARCHAR(42),
+  nom_C       VARCHAR(42) NOT NULL
 );
 
--- Table: Tour
-CREATE TABLE Tour (
-    numeroT INT PRIMARY KEY
-);
-
--- Associative Table: Partie_Tour (relationship between Partie and Tour)
-CREATE TABLE Partie_Tour (
-    partie_id INT,
-    tour_numeroT INT,
-    PRIMARY KEY (partie_id, tour_numeroT),
-    FOREIGN KEY (partie_id) REFERENCES Partie(idPartie),
-    FOREIGN KEY (tour_numeroT) REFERENCES Tour(numeroT)
-);
-
--- Associative Table: Tour_Brique (ACTION relationship between Tour and Brique)
-CREATE TABLE Tour_Brique (
-    tour_numeroT INT,
-    brique_idB INT,
-    descriptionAction TEXT,
-    PRIMARY KEY (tour_numeroT, brique_idB),
-    FOREIGN KEY (tour_numeroT) REFERENCES Tour(numeroT),
-    FOREIGN KEY (brique_idB) REFERENCES Brique(idB)
-);
-
--- Table: Usine
-CREATE TABLE Usine (
-    ville VARCHAR(100),
-    pays VARCHAR(100),
-    PRIMARY KEY (ville, pays)
-);
-
--- Associative Table: Brique_Usine (FABRIQUE relationship between Brique and Usine)
-CREATE TABLE Brique_Usine (
-    brique_idB INT,
-    usine_ville VARCHAR(100),
-    usine_pays VARCHAR(100),
-    quantite INT,
-    PRIMARY KEY (brique_idB, usine_ville, usine_pays),
-    FOREIGN KEY (brique_idB) REFERENCES Brique(idB),
-    FOREIGN KEY (usine_ville, usine_pays) REFERENCES Usine(ville, pays)
-);
-
--- Table: Joueuses
 CREATE TABLE Joueuses (
-    prenomJ VARCHAR(255) PRIMARY KEY,
-    date_inscription DATE,
-    avatar VARCHAR(255)
+  PRIMARY KEY (prenom_J),
+  prenom_J         VARCHAR(42) NOT NULL,
+  date_inscription VARCHAR(42),
+  avatar           VARCHAR(42)
 );
 
--- Associative Table: Partie_Joueuses (relationship between Partie and Joueuses)
-CREATE TABLE Partie_Joueuses (
-    partie_id INT,
-    joueuse_prenomJ VARCHAR(255),
-    PRIMARY KEY (partie_id, joueuse_prenomJ),
-    FOREIGN KEY (partie_id) REFERENCES Partie(idPartie),
-    FOREIGN KEY (joueuse_prenomJ) REFERENCES Joueuses(prenomJ)
+CREATE TABLE Partie (
+  PRIMARY KEY (date_debut),
+  date_debut VARCHAR(42) NOT NULL,
+  date_fin   VARCHAR(42)
 );
 
--- Associative Table: Scores (SCORES relationship between Partie and Joueuses)
-CREATE TABLE Scores (
-    partie_id INT,
-    joueuse_prenomJ VARCHAR(255),
-    score INT,
-    PRIMARY KEY (partie_id, joueuse_prenomJ),
-    FOREIGN KEY (partie_id) REFERENCES Partie(idPartie),
-    FOREIGN KEY (joueuse_prenomJ) REFERENCES Joueuses(prenomJ)
+CREATE TABLE Photo (
+  PRIMARY KEY (titre),
+  titre         VARCHAR(42) NOT NULL,
+  description_P VARCHAR(42),
+  chemin        VARCHAR(42),
+  id_B          VARCHAR(42) NOT NULL,
+  UNIQUE (id_B)
 );
 
--- Associative Table: Brique_Substitution (SUBS relationship between Brique and Substitution)
-CREATE TABLE Brique_Substitution (
-    brique_idB INT,
-    substitution_idS INT,
-    PRIMARY KEY (brique_idB, substitution_idS),
-    FOREIGN KEY (brique_idB) REFERENCES Brique(idB),
-    FOREIGN KEY (substitution_idS) REFERENCES Substitution(idS)
+CREATE TABLE SCORES (
+  PRIMARY KEY (date_debut, prenom_J),
+  date_debut VARCHAR(42) NOT NULL,
+  prenom_J   VARCHAR(42) NOT NULL,
+  score      VARCHAR(42)
 );
 
--- Insert examples for Photo
-INSERT INTO Photo (titre, descriptionP, chemin)
-VALUES 
-    ('Main Photo', 'Main image of the set', '/images/main_photo.jpg'),
-    ('Brick Detail', 'Close-up of the brick piece', '/images/brick_detail.jpg');
+CREATE TABLE Substitution (
+  PRIMARY KEY (id_S),
+  id_S        VARCHAR(42) NOT NULL,
+  nom_S       VARCHAR(42),
+  commentaire VARCHAR(42),
+  id_B        VARCHAR(42) NOT NULL
+);
 
--- Insert examples for Oficielle
-INSERT INTO Oficielle (CodeO, age_recommende, nomO, prixO)
-VALUES 
-    (101, 8, 'Official Construction Set 1', 29.99),
-    (102, 12, 'Advanced Building Kit', 49.99);
+CREATE TABLE Tour (
+  PRIMARY KEY (numero_T),
+  numero_T           VARCHAR(42) NOT NULL,
+  date_debut         VARCHAR(42) NOT NULL,
+  prenom_J           VARCHAR(42) NOT NULL,
+  id_B               VARCHAR(42) NOT NULL,
+  description_Action VARCHAR(42)
+);
 
--- Insert examples for Etape
-INSERT INTO Etape (numero, image, instruction)
-VALUES 
-    (1, '/images/step1.jpg', 'Start with the base piece'),
-    (2, '/images/step2.jpg', 'Add the second layer'),
-    (3, '/images/step3.jpg', 'Attach the small pieces on top');
+CREATE TABLE Usine (
+  PRIMARY KEY (ville),
+  ville VARCHAR(42) NOT NULL,
+  pays  VARCHAR(42)
+);
 
--- Insert examples for Brique
-INSERT INTO Brique (idB, nomB, largeur, longueur, hauteur, forme, couleur, mots_cles)
-VALUES 
-    (1, 'Red Brick', 2.5, 5.0, 1.5, 'rectangle', 'red', 'basic,structure'),
-    (2, 'Blue Block', 3.0, 3.0, 3.0, 'cube', 'blue', 'block,support'),
-    (3, 'Green Plate', 1.0, 4.0, 0.5, 'flat', 'green', 'foundation,layer');
+ALTER TABLE ASSEMBLAGE ADD FOREIGN KEY (nom_C) REFERENCES Construction (nom_C);
+ALTER TABLE ASSEMBLAGE ADD FOREIGN KEY (id_B) REFERENCES Brique (id_B);
 
--- Insert examples for Substitution
-INSERT INTO Substitution (idS, nomS, commentaire)
-VALUES 
-    (1, 'Alternate Red Brick', 'Can substitute for Red Brick if unavailable'),
-    (2, 'Alternate Green Plate', 'Slightly different size but fits the same role');
+ALTER TABLE Brique ADD FOREIGN KEY (ville) REFERENCES Usine (ville);
 
--- Insert examples for Amateur
-INSERT INTO Amateur (nomA, license)
-VALUES 
-    ('Builder Joe', 'L12345'),
-    ('Creative Sam', 'L67890');
+ALTER TABLE Configuration ADD FOREIGN KEY (date_debut) REFERENCES Partie (date_debut);
 
--- Insert examples for Construction
-INSERT INTO Construction (nomC, theme, descriptionC, anneC, dimmension)
-VALUES 
-    ('Castle Build', 'Medieval', 'A model castle with towers and walls', 2020, '50x50x30 cm'),
-    ('Spaceship', 'Sci-Fi', 'A futuristic spacecraft with modular design', 2021, '60x30x20 cm');
+ALTER TABLE Etape ADD FOREIGN KEY (nom_C) REFERENCES Construction (nom_C);
 
--- Example relationships for Construction_Photo
-INSERT INTO Construction_Photo (construction_nomC, etape_numero)
-VALUES 
-    ('Castle Build', 1),
-    ('Castle Build', 2),
-    ('Spaceship', 1),
-    ('Spaceship', 3);
+ALTER TABLE Photo ADD FOREIGN KEY (id_B) REFERENCES Brique (id_B);
 
--- Example relationships for Construction_Brique (ASSEMBLAGE)
-INSERT INTO Construction_Brique (construction_nomC, brique_idB)
-VALUES 
-    ('Castle Build', 1),
-    ('Castle Build', 2),
-    ('Spaceship', 2),
-    ('Spaceship', 3);
+ALTER TABLE SCORES ADD FOREIGN KEY (prenom_J) REFERENCES Joueuses (prenom_J);
+ALTER TABLE SCORES ADD FOREIGN KEY (date_debut) REFERENCES Partie (date_debut);
 
--- Insert examples for Configuration
-INSERT INTO Configuration (propiete, valeur)
-VALUES 
-    ('Lighting', 'LED lights'),
-    ('Difficulty', 'Intermediate');
+ALTER TABLE Substitution ADD FOREIGN KEY (id_B) REFERENCES Brique (id_B);
 
--- Insert examples for Partie
-INSERT INTO Partie (date_debut, date_fin)
-VALUES 
-    ('2023-01-01', '2023-01-10'),
-    ('2023-02-15', '2023-02-20');
+ALTER TABLE Tour ADD FOREIGN KEY (id_B) REFERENCES Brique (id_B);
+ALTER TABLE Tour ADD FOREIGN KEY (prenom_J) REFERENCES Joueuses (prenom_J);
+ALTER TABLE Tour ADD FOREIGN KEY (date_debut) REFERENCES Partie (date_debut);
 
--- Example relationships for Partie_Configuration (POSSEDE)
-INSERT INTO Partie_Configuration (partie_id, configuration_propiete)
-VALUES 
-    (1, 'Lighting'),
-    (1, 'Difficulty');
 
--- Insert examples for Tour
-INSERT INTO Tour (numeroT)
-VALUES 
-    (1),
-    (2);
-
--- Example relationships for Partie_Tour
-INSERT INTO Partie_Tour (partie_id, tour_numeroT)
-VALUES 
-    (1, 1),
-    (1, 2);
-
--- Example relationships for Tour_Brique (ACTION)
-INSERT INTO Tour_Brique (tour_numeroT, brique_idB, descriptionAction)
-VALUES 
-    (1, 1, 'Add a red brick to the base'),
-    (2, 2, 'Place a blue block on the red brick');
-
--- Insert examples for Usine
-INSERT INTO Usine (ville, pays)
-VALUES 
-    ('Lille', 'France'),
+-- Step 1: Insert into Usine
+INSERT INTO Usine (ville, pays) VALUES 
+    ('Lille', 'France'), 
     ('Berlin', 'Germany');
 
--- Example relationships for Brique_Usine (FABRIQUE)
-INSERT INTO Brique_Usine (brique_idB, usine_ville, usine_pays, quantite)
+-- Step 2: Insert into Brique (Brique has a foreign key reference to Usine)
+INSERT INTO Brique (id_B, nom_B, largeur, longueur, hauteur, forme, couleur, mots_cles, ville, quantite) 
 VALUES 
-    (1, 'Lille', 'France', 500),
-    (2, 'Berlin', 'Germany', 300);
+    ('B1', 'Red Brick', '2.5', '5.0', '1.5', 'rectangle', 'red', 'structure', 'Lille', '1000'),
+    ('B2', 'Blue Block', '3.0', '3.0', '3.0', 'cube', 'blue', 'block', 'Berlin', '500');
 
--- Insert examples for Joueuses
-INSERT INTO Joueuses (prenomJ, date_inscription, avatar)
+-- Step 3: Insert into Partie
+INSERT INTO Partie (date_debut, date_fin) 
 VALUES 
-    ('Alice', '2022-05-01', '/avatars/alice.jpg'),
+    ('2023-01-01', '2023-01-10'), 
+    ('2023-01-15', '2023-02-15');
+
+-- Step 4: Insert into Configuration (Configuration references date_debut in Partie)
+INSERT INTO Configuration (propiete, valeur, date_debut) 
+VALUES 
+    ('Lighting', 'LED lights', '2023-01-01'), 
+    ('Difficulty', 'Intermediate', '2023-01-15');
+
+-- Step 5: Insert into Construction
+INSERT INTO Construction (nom_C, theme, description_C, anne_C, dimmension, sexe, Code_O, age_recommende, nom_O, prix_O, nom_A, license) 
+VALUES 
+    ('Castle', 'Medieval', 'Castle with towers', '2020', '50x50x30 cm', 1, '101', '8+', 'Official Castle Kit', '29.99', NULL, NULL),
+    ('Spaceship', 'Sci-Fi', 'Spaceship model', '2021', '60x30x20 cm', 0, NULL, NULL, NULL, NULL, 'Sam', 'L12345');
+
+-- Step 6: Insert into ASSEMBLAGE (ASSEMBLAGE references both Brique and Construction)
+INSERT INTO ASSEMBLAGE (id_B, nom_C) 
+VALUES 
+    ('B1', 'Castle'), 
+    ('B2', 'Spaceship');
+
+-- Step 7: Insert into Etape (Etape references Construction)
+INSERT INTO Etape (numero, image, instruction, nom_C) 
+VALUES 
+    ('1', '/images/step1.jpg', 'Start with the base', 'Castle'), 
+    ('2', '/images/step2.jpg', 'Add walls', 'Castle'),
+    ('3', '/images/step3.jpg', 'Place cockpit', 'Spaceship');
+
+-- Step 8: Insert into Joueuses
+INSERT INTO Joueuses (prenom_J, date_inscription, avatar) 
+VALUES 
+    ('Alice', '2022-05-01', '/avatars/alice.jpg'), 
     ('Bob', '2023-01-20', '/avatars/bob.jpg');
 
--- Example relationships for Partie_Joueuses
-INSERT INTO Partie_Joueuses (partie_id, joueuse_prenomJ)
+-- Step 9: Insert into Photo (Photo references Brique)
+INSERT INTO Photo (titre, description_P, chemin, id_B) 
 VALUES 
-    (1, 'Alice'),
-    (2, 'Bob');
+    ('Main Photo', 'Main image of the brick set', '/images/main_photo.jpg', 'B1'),
+    ('Detail Shot', 'Close-up of the blue block', '/images/blue_block.jpg', 'B2');
 
--- Example relationships for Scores (SCORES)
-INSERT INTO Scores (partie_id, joueuse_prenomJ, score)
+-- Step 10: Insert into SCORES (SCORES references Partie and Joueuses)
+INSERT INTO SCORES (date_debut, prenom_J, score) 
 VALUES 
-    (1, 'Alice', 95),
-    (2, 'Bob', 88);
+    ('2023-01-01', 'Alice', '85'), 
+    ('2023-01-15', 'Bob', '90');
 
--- Example relationships for Brique_Substitution (SUBS)
-INSERT INTO Brique_Substitution (brique_idB, substitution_idS)
+-- Step 11: Insert into Substitution (Substitution references Brique)
+INSERT INTO Substitution (id_S, nom_S, commentaire, id_B) 
 VALUES 
-    (1, 1),
-    (3, 2);
+    ('S1', 'Alternate Red Brick', 'Use this if Red Brick is unavailable', 'B1'),
+    ('S2', 'Alternate Blue Block', 'Can replace Blue Block for stability', 'B2');
+
+-- Step 12: Insert into Tour (Tour references Partie, Joueuses, and Brique)
+INSERT INTO Tour (numero_T, date_debut, prenom_J, id_B, description_Action) 
+VALUES 
+    ('1', '2023-01-01', 'Alice', 'B1', 'Add red brick to base'), 
+    ('2', '2023-01-15', 'Bob', 'Place blue block on top');
