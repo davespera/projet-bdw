@@ -1,3 +1,7 @@
+DROP SCHEMA IF EXISTS legos CASCADE;
+CREATE SCHEMA IF NOT EXISTS legos;
+SET search_path TO legos;
+
 CREATE TABLE ASSEMBLAGE (
   PRIMARY KEY (id_B, nom_C),
   id_B  VARCHAR(42) NOT NULL,
@@ -190,5 +194,6 @@ VALUES
 -- Step 12: Insert into Tour (Tour references Partie, Joueuses, and Brique)
 INSERT INTO Tour (numero_T, date_debut, prenom_J, id_B, description_Action) 
 VALUES 
-    ('1', '2023-01-01', 'Alice', 'B1', 'Add red brick to base'), 
-    ('2', '2023-01-15', 'Bob', 'Place blue block on top');
+    ('1', '2023-01-01', 'Alice', 'B1', 'défaussée'), 
+    ('2', '2023-01-15', 'Bob', 'placée');
+
