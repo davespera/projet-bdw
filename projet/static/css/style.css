@@ -13,9 +13,6 @@ header {
     background-color: #ff00f2e7;
     text-align: center;
     border-radius: 1em;
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between;
 }
 
 #div-central {
