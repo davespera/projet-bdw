@@ -1,11 +1,11 @@
 <header>
-	<div style="float: left;">
-		<a href="/">
-			<img src="/serial_critique/static/img/sheep.png" width="50%" height="50%">
-		</a>
-	</div>
-	<!-- le fameux titre <h1> à personnaliser ! faites-vous plaisir... -->
-	<h1>{{ SESSION['APP'] }}</h1>
-	<!-- NB : si vous souhaitez également modifier le titre qui apparait dans l'onglet du navigateur (ce qui serait logique !), c'est une métadonnée de la page (dans la balise <head> de index.php). -->	
-	<strong>{{ SESSION['BASELINE'] }}</strong>
+    <div style="flex: 0;">
+        <a id="header" href="/">
+            <img src="/projet/static/img/lego_ship.png" style="width: 200px; height: auto;">
+        </a>
+    </div>
+    <div style="flex: 1; text-align: center;">
+        <h1>{{ SESSION['APP'] }}</h1>	
+        <strong>{{ SESSION['BASELINE'] }}</strong>
+    </div>
 </header>
