@@ -195,5 +195,4 @@ VALUES
 INSERT INTO Tour (numero_T, date_debut, prenom_J, id_B, description_Action) 
 VALUES 
     ('1', '2023-01-01', 'Alice', 'B1', 'défaussée'), 
-    ('2', '2023-01-15', 'Bob', 'placée');
-
+    ('2', '2023-01-15', 'Bob','B2', 'placée');
