@@ -60,12 +60,12 @@ def scores_per_joueuse(connexion):
     query = sql.SQL('SELECT prenom_J, MIN(CAST(score AS INTEGER)) AS score_min, MAX(CAST(score AS INTEGER)) AS score_max FROM SCORES GROUP BY prenom_J;')
     return execute_select_query(connexion, query)
 
-#def max_nb_pieces_defaussees(connexion):
-#    """
-#    Retourne le nombre de pièces défaussées
-#    """
-#    query = sql.SQL('SELECT date_debut, COUNT(*) AS pieces_defausses FROM Tour WHERE description_Action = 'defaussée' GROUP BY date_debut ORDER BY pieces_defausses DESC LIMIT 1;')
-#    return execute_select_query(connexion, query)
+def max_nb_pieces_defaussees(connexion):
+    """
+    Retourne le nombre de pièces défaussées
+    """
+    query = sql.SQL('SELECT date_debut, COUNT(*) AS pieces_defausses FROM Tour WHERE description_Action like 'défaussée' GROUP BY date_debut ORDER BY pieces_defausses DESC LIMIT 1;')
+    return execute_select_query(connexion, query)
 
 def moy_tours_date(connexion):
     """
