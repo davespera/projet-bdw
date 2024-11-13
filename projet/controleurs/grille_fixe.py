@@ -13,8 +13,8 @@ REQUEST_VARS['message_rand_briques'] = message
 if 'brique' in POST:
     res = get_brique_by_id(SESSION['CONNEXION'], POST['brique'][0])
     if res:
-        brique = res
-        message = f"La brique {brique[0]} est de couleur {brique[0]}, de longueur {brique[0]} et de largeur {brique[0]}."
+        brique = res[0]
+        message = f"La brique {brique[0]} est de couleur {brique[1]}, de longueur {brique[2]} et de largeur {brique[3]}."
     else:
         message = "Aucune brique avec cet id."
     print(message)
