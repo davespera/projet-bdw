@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grille Fixe</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100vh;
+        }
+        td {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+        }
+        .target {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+    <table>
+        <!-- Row 1 -->
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <!-- Row 2 -->
+        <tr>
+            <td></td><td></td><td></td><td class="target"></td><td class="target"></td><td></td><td></td><td></td>
+        </tr>
+        <!-- Row 3 -->
+        <tr>
+            <td></td><td></td><td class="target"></td><td></td><td></td><td class="target"></td><td></td><td></td>
+        </tr>
+        <!-- Row 4 -->
+        <tr>
+            <td></td><td class="target"></td><td></td><td></td><td></td><td></td><td class="target"></td><td></td>
+        </tr>
+        <!-- Row 5 -->
+        <tr>
+            <td class="target"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="target"></td>
+        </tr>
+        <!-- Row 6 -->
+        <tr>
+            <td></td><td class="target"></td><td></td><td></td><td></td><td></td><td class="target"></td><td></td>
+        </tr>
+        <!-- Row 7 -->
+        <tr>
+            <td></td><td></td><td class="target"></td><td></td><td></td><td class="target"></td><td></td><td></td>
+        </tr>
+        <!-- Row 8 -->
+        <tr>
+            <td></td><td></td><td></td><td class="target"></td><td class="target"></td><td></td><td></td><td></td>
+        </tr>
+        <!-- Row 9 -->
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+    </table>
+
+<!-- Formulaire de pioche -->
+<form id="pioche-form" method="POST" action="/update_brique">
+    <label for="brique-select">Sélectionnez une brique :</label>
+    <select id="brique-select" name="brique">
+        {% for brique in REQUEST_VARS['message_rand_briques'] %}
+            <option value="{{ brique[1] }}">{{ brique[0] }}</option> <!-- shows the name, sends the id -->
+        {% endfor %}
+    </select>
+    <button type="submit">Soumettre</button>
+</form>
+<p id="message">{{ REQUEST_VARS['message_brique'] }}</p>
+{% if POST['brique'] %}
+    <p>Vous avez pioché la brique : {{ POST['brique'][0] }}</p>
+    <p>{{ REQUEST_VARS['message_brique'] }}</p>
+{% endif %}
+{% endblock %}

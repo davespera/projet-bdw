@@ -2,3 +2,8 @@
 url = ""
 controleur = "controleurs/accueil.py"
 template = "accueil.html"
+
+[[routes]]
+url = "grille_fixe"
+controleur = "controleurs/grille_fixe.py"
+template = "grille_fixe.html"

@@ -12,9 +12,9 @@ CREATE TABLE Brique (
   PRIMARY KEY (id_B),
   id_B      VARCHAR(42) NOT NULL,
   nom_B     VARCHAR(42),
-  largeur   VARCHAR(42),
-  longueur  VARCHAR(42),
-  hauteur   VARCHAR(42),
+  largeur   FLOAT NOT NULL CHECK (largeur >= 0),
+  longueur  FLOAT NOT NULL CHECK (largeur >= 0),
+  hauteur   FLOAT NOT NULL CHECK (hauteur >= 0),
   forme     VARCHAR(42),
   couleur   VARCHAR(42),
   mots_cles VARCHAR(42),
@@ -133,8 +133,9 @@ INSERT INTO Usine (ville, pays) VALUES
 -- Step 2: Insert into Brique (Brique has a foreign key reference to Usine)
 INSERT INTO Brique (id_B, nom_B, largeur, longueur, hauteur, forme, couleur, mots_cles, ville, quantite) 
 VALUES 
-    ('B1', 'Red Brick', '2.5', '5.0', '1.5', 'rectangle', 'red', 'structure', 'Lille', '1000'),
-    ('B2', 'Blue Block', '3.0', '3.0', '3.0', 'cube', 'blue', 'block', 'Berlin', '500');
+    ('B1', 'Red Brick', '1.5', '1.0', '1.5', 'rectangle', 'red', 'structure', 'Lille', '1000'),
+    ('B2', 'Orange Brick', '1.5', '1.0', '1.5', 'rectangle', 'orange', 'structure', 'Lille', '1000'),
+    ('B3', 'Blue Block', '3.0', '3.0', '3.0', 'cube', 'blue', 'block', 'Berlin', '500');
 
 -- Step 3: Insert into Partie
 INSERT INTO Partie (date_debut, date_fin) 

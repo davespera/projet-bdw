@@ -90,3 +90,17 @@ def top_3_parties_pieces(connexion): #maybe check if the data is well represente
    'ORDER BY superficie DESC, nombre_pieces_utilisees DESC '
    'LIMIT 3;')
     return execute_select_query(connexion, query)
+
+#grille fixe
+
+def get_random_briques(connexion):
+    query = sql.SQL("SELECT nom_B, id_B, longueur, largeur FROM Brique WHERE longueur <= 2 OR largeur <= 2 ORDER BY RANDOM() LIMIT 4")
+    return execute_select_query(connexion, query)
+
+def get_brique_by_id(connexion, brique_id):
+    query = sql.SQL("SELECT id_B, couleur, longueur, largeur, forme, mots_cles FROM brique WHERE id_B = %s")
+    return execute_select_query(connexion, query, [brique_id])
+
+def get_new_random_brique(connexion, exclude_ids):
+    query = sql.SQL("SELECT nom_B, id_B FROM Brique WHERE id_B NOT IN %s ORDER BY RANDOM() LIMIT 1")
+    return execute_select_query(connexion, query, (tuple(exclude_ids),))
