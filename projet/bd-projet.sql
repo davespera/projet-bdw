@@ -4,19 +4,19 @@ SET search_path TO legos;
 
 CREATE TABLE ASSEMBLAGE (
   PRIMARY KEY (id_B, nom_C),
-  id_B  VARCHAR(42) NOT NULL,
+  id_B      INTEGER NOT NULL CHECK (id_B >= 0),
   nom_C VARCHAR(42) NOT NULL
 );
 
 CREATE TABLE Brique (
   PRIMARY KEY (id_B),
-  id_B      VARCHAR(42) NOT NULL,
+  id_B      INTEGER NOT NULL CHECK (id_B >= 0),
   nom_B     VARCHAR(42),
-  largeur   FLOAT NOT NULL CHECK (largeur >= 0),
-  longueur  FLOAT NOT NULL CHECK (largeur >= 0),
+  largeur   INTEGER NOT NULL CHECK (largeur >= 0),
+  longueur  INTEGER NOT NULL CHECK (longueur >= 0),
   hauteur   FLOAT NOT NULL CHECK (hauteur >= 0),
   forme     VARCHAR(42),
-  couleur   VARCHAR(42),
+  couleur   VARCHAR(20),
   mots_cles VARCHAR(42),
   ville     VARCHAR(42) NOT NULL,
   quantite  VARCHAR(42)
@@ -70,7 +70,7 @@ CREATE TABLE Photo (
   titre         VARCHAR(42) NOT NULL,
   description_P VARCHAR(42),
   chemin        VARCHAR(42),
-  id_B          VARCHAR(42) NOT NULL,
+  id_B      INTEGER NOT NULL CHECK (id_B >= 0),
   UNIQUE (id_B)
 );
 
@@ -86,7 +86,7 @@ CREATE TABLE Substitution (
   id_S        VARCHAR(42) NOT NULL,
   nom_S       VARCHAR(42),
   commentaire VARCHAR(42),
-  id_B        VARCHAR(42) NOT NULL
+  id_B      INTEGER NOT NULL CHECK (id_B >= 0)
 );
 
 CREATE TABLE Tour (
@@ -94,7 +94,7 @@ CREATE TABLE Tour (
   numero_T           VARCHAR(42) NOT NULL,
   date_debut         VARCHAR(42) NOT NULL,
   prenom_J           VARCHAR(42) NOT NULL,
-  id_B               VARCHAR(42) NOT NULL,
+  id_B      INTEGER NOT NULL CHECK (id_B >= 0),
   description_Action VARCHAR(42)
 );
 
@@ -133,9 +133,9 @@ INSERT INTO Usine (ville, pays) VALUES
 -- Step 2: Insert into Brique (Brique has a foreign key reference to Usine)
 INSERT INTO Brique (id_B, nom_B, largeur, longueur, hauteur, forme, couleur, mots_cles, ville, quantite) 
 VALUES 
-    ('B1', 'Red Brick', '1.5', '1.0', '1.5', 'rectangle', 'red', 'structure', 'Lille', '1000'),
-    ('B2', 'Orange Brick', '1.5', '1.0', '1.5', 'rectangle', 'orange', 'structure', 'Lille', '1000'),
-    ('B3', 'Blue Block', '3.0', '3.0', '3.0', 'cube', 'blue', 'block', 'Berlin', '500');
+    (1, 'Red Brick', 1, 1, 1, 'rectangle', 'red', 'structure', 'Lille', '1000'),
+    (2, 'Orange Brick', 2, 1, 1, 'rectangle', 'orange', 'structure', 'Lille', '1000'),
+    (3, 'Blue Block', 3, 1,1, 'cube', 'blue', 'block', 'Berlin', '500');
 
 -- Step 3: Insert into Partie
 INSERT INTO Partie (date_debut, date_fin) 
@@ -158,8 +158,8 @@ VALUES
 -- Step 6: Insert into ASSEMBLAGE (ASSEMBLAGE references both Brique and Construction)
 INSERT INTO ASSEMBLAGE (id_B, nom_C) 
 VALUES 
-    ('B1', 'Castle'), 
-    ('B2', 'Spaceship');
+    (1, 'Castle'), 
+    (2, 'Spaceship');
 
 -- Step 7: Insert into Etape (Etape references Construction)
 INSERT INTO Etape (numero, image, instruction, nom_C) 
@@ -177,8 +177,8 @@ VALUES
 -- Step 9: Insert into Photo (Photo references Brique)
 INSERT INTO Photo (titre, description_P, chemin, id_B) 
 VALUES 
-    ('Main Photo', 'Main image of the brick set', '/images/main_photo.jpg', 'B1'),
-    ('Detail Shot', 'Close-up of the blue block', '/images/blue_block.jpg', 'B2');
+    ('Main Photo', 'Main image of the brick set', '/images/main_photo.jpg', 1),
+    ('Detail Shot', 'Close-up of the blue block', '/images/blue_block.jpg', 2);
 
 -- Step 10: Insert into SCORES (SCORES references Partie and Joueuses)
 INSERT INTO SCORES (date_debut, prenom_J, score) 
@@ -189,11 +189,11 @@ VALUES
 -- Step 11: Insert into Substitution (Substitution references Brique)
 INSERT INTO Substitution (id_S, nom_S, commentaire, id_B) 
 VALUES 
-    ('S1', 'Alternate Red Brick', 'Use this if Red Brick is unavailable', 'B1'),
-    ('S2', 'Alternate Blue Block', 'Can replace Blue Block for stability', 'B2');
+    ('S1', 'Alternate Red Brick', 'Use this if Red Brick is unavailable', 1),
+    ('S2', 'Alternate Blue Block', 'Can replace Blue Block for stability', 2);
 
 -- Step 12: Insert into Tour (Tour references Partie, Joueuses, and Brique)
 INSERT INTO Tour (numero_T, date_debut, prenom_J, id_B, description_Action) 
 VALUES 
-    ('1', '2023-01-01', 'Alice', 'B1', 'défaussée'), 
-    ('2', '2023-01-15', 'Bob','B2', 'placée');
+    ('1', '2023-01-01', 'Alice', 1, 'défaussée'), 
+    ('2', '2023-01-15', 'Bob',2, 'placée');
