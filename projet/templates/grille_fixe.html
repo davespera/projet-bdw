@@ -62,7 +62,7 @@
     </table>
 
 <!-- Formulaire de pioche -->
-<form id="pioche-form" method="POST" action="/update_brique">
+<form id="pioche-form" method="POST">
     <label for="brique-select">Sélectionnez une brique :</label>
     <select id="brique-select" name="brique">
         {% for brique in REQUEST_VARS['message_rand_briques'] %}

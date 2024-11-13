@@ -1,5 +1,4 @@
 from model.model_pg import get_random_briques, get_brique_by_id, get_new_random_brique
-from flask import jsonify, render_template, request, redirect, url_for
 
 res = get_random_briques(SESSION['CONNEXION'])
 if res:
