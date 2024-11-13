@@ -64,19 +64,19 @@ def max_nb_pieces_defaussees(connexion):
     """
     Retourne le nombre de pièces défaussées
     """
-    query = sql.SQL('SELECT date_debut, COUNT(*) AS pieces_defausses FROM Tour WHERE description_Action like 'défaussée' GROUP BY date_debut ORDER BY pieces_defausses DESC LIMIT 1;')
+    query = sql.SQL('SELECT COUNT(*) AS pieces_defausses, date_debut FROM Tour WHERE description_Action like \'défaussée\' GROUP BY date_debut ORDER BY pieces_defausses DESC LIMIT 1;')
     return execute_select_query(connexion, query)
 
 def moy_tours_date(connexion):
     """
     Retourne le nombre de tours par partie
     """
-    query = sql.SQL('SELECT EXTRACT(YEAR FROM date_debut::DATE) AS annee,'
-    'EXTRACT(MONTH FROM date_debut::DATE) AS mois, COUNT(*) / COUNT(DISTINCT numero_T) AS moyenne_tours '
+    query = sql.SQL('SELECT COUNT(*) / COUNT(DISTINCT numero_T) AS moyenne_tours, EXTRACT(YEAR FROM date_debut::DATE) AS annee,'
+    'EXTRACT(MONTH FROM date_debut::DATE) AS mois '
     'FROM Tour GROUP BY annee, mois;')
     return execute_select_query(connexion, query)
 
-def top_3_parties_pieces(connexion):
+def top_3_parties_pieces(connexion): #maybe check if the data is well represented
     """
     Retourne les 3 parties avec le plus grandes pièces
     """

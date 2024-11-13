@@ -1,4 +1,4 @@
-from model.model_pg import count_instances, top_5_couleurs, scores_per_joueuse, moy_tours_date, top_3_parties_pieces
+from model.model_pg import count_instances, top_5_couleurs, scores_per_joueuse, max_nb_pieces_defaussees, moy_tours_date, top_3_parties_pieces
 
 res = count_instances(SESSION['CONNEXION'], 'usine')
 nb_series = res[0][0] # result is a list of tuples with attributes
@@ -50,15 +50,15 @@ print(message)
 
 REQUEST_VARS['message_score'] = message
 
-#res = max_nb_pieces_defaussees(SESSION['CONNEXION'])
-#if res:
-#    max_defausse = res[0][0]
-#    message = f"Le nombre maximal de pièces défossées est {max_defausse}."
-#else: 
-#    message = "Aucune pièce défossée."
-#print(message)
+res = max_nb_pieces_defaussees(SESSION['CONNEXION'])
+if res:
+    max_defausse = res[0][0]
+    message = f"Le nombre maximal de pièces défaussées est {max_defausse}."
+else: 
+    message = "Aucune pièce défaussée."
+print(message)
 
-#REQUEST_VARS['message_max_defausse'] = message
+REQUEST_VARS['message_max_defausse'] = message
 
 res = moy_tours_date(SESSION['CONNEXION'])
 if res:
