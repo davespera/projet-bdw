@@ -1,14 +1,16 @@
 from model.model_pg import get_random_briques, get_brique_by_id, get_new_random_brique
 
-res = get_random_briques(SESSION['CONNEXION'])
-if res:
-    briques = [(brique[0], brique[1]) for brique in res]  
-    message = briques
+# Initialisation de la pioche
+if 'pioche' not in SESSION:
+    res = get_random_briques(SESSION['CONNEXION'])
+    if res:
+        briques = [(brique[0], brique[1]) for brique in res]  
+        SESSION['pioche'] = briques
+    else:
+        SESSION['pioche'] = []
+    REQUEST_VARS['message_rand_briques'] = SESSION['pioche']
 else:
-    message = "Aucune brique dans la base."
-print(message)
-
-REQUEST_VARS['message_rand_briques'] = message
+    REQUEST_VARS['message_rand_briques'] = SESSION['pioche']
 
 if 'brique' in POST:
     res = get_brique_by_id(SESSION['CONNEXION'], POST['brique'][0])
