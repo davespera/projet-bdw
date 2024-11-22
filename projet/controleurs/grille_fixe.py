@@ -4,7 +4,7 @@ from model.model_pg import get_random_briques, get_brique_by_id, get_new_random_
 if 'pioche' not in SESSION:
     res = get_random_briques(SESSION['CONNEXION'])
     if res:
-        briques = [(brique[0], brique[1]) for brique in res]  
+        briques = [brique[0] for brique in res]  
         SESSION['pioche'] = briques
     else:
         SESSION['pioche'] = []
@@ -17,6 +17,8 @@ if 'brique' in POST:
     if res:
         brique = res[0]
         message = f"La brique {brique[0]} est de couleur {brique[1]}, de longueur {brique[2]} et de largeur {brique[3]}."
+        SESSION['pioche'].remove(brique[0])
+        #new_brique = get_new_random_brique(SESSION['CONNEXION'], brique[0])
     else:
         message = "Aucune brique avec cet id."
     print(message)

@@ -7,3 +7,8 @@ template = "accueil.html"
 url = "grille_fixe"
 controleur = "controleurs/grille_fixe.py"
 template = "grille_fixe.html"
+
+[[routes]]
+url = "grille_aleatoire"
+controleur = "controleurs/grille_aleatoire.py"
+template = "grille_aleatoire.html"
