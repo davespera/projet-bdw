@@ -1,5 +1,18 @@
 from model.model_pg import get_random_briques, get_brique_by_id, get_new_random_brique
 
+target_cells = {
+    1: [3, 4],
+    2: [2, 5],
+    3: [1, 6],
+    4: [0, 7],
+    5: [1, 6],
+    6: [2, 5],
+    7: [3, 4],
+}
+REQUEST_VARS['rows'] = 9
+REQUEST_VARS['cols'] = 8
+REQUEST_VARS['target_cells'] = target_cells
+
 # Initialisation de la pioche
 if 'pioche' not in SESSION:
     res = get_random_briques(SESSION['CONNEXION'])

@@ -22,44 +22,19 @@
         }
     </style>
 </head>
-    <table>
-        <!-- Row 1 -->
+<table>
+    {% for row in range(REQUEST_VARS['rows']) %}
         <tr>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            {% for col in range(REQUEST_VARS['cols']) %}
+                <td 
+                    {% if row in REQUEST_VARS['target_cells'] and col in REQUEST_VARS['target_cells'][row] %}
+                        class="target"
+                    {% endif %}
+                ></td>
+            {% endfor %}
         </tr>
-        <!-- Row 2 -->
-        <tr>
-            <td></td><td></td><td></td><td class="target"></td><td class="target"></td><td></td><td></td><td></td>
-        </tr>
-        <!-- Row 3 -->
-        <tr>
-            <td></td><td></td><td class="target"></td><td></td><td></td><td class="target"></td><td></td><td></td>
-        </tr>
-        <!-- Row 4 -->
-        <tr>
-            <td></td><td class="target"></td><td></td><td></td><td></td><td></td><td class="target"></td><td></td>
-        </tr>
-        <!-- Row 5 -->
-        <tr>
-            <td class="target"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="target"></td>
-        </tr>
-        <!-- Row 6 -->
-        <tr>
-            <td></td><td class="target"></td><td></td><td></td><td></td><td></td><td class="target"></td><td></td>
-        </tr>
-        <!-- Row 7 -->
-        <tr>
-            <td></td><td></td><td class="target"></td><td></td><td></td><td class="target"></td><td></td><td></td>
-        </tr>
-        <!-- Row 8 -->
-        <tr>
-            <td></td><td></td><td></td><td class="target"></td><td class="target"></td><td></td><td></td><td></td>
-        </tr>
-        <!-- Row 9 -->
-        <tr>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
-    </table>
+    {% endfor %}
+</table>
 
 <!-- Formulaire de pioche -->
 <form id="pioche-form" method="POST">
