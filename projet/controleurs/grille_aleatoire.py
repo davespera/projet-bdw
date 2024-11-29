@@ -35,9 +35,9 @@ if 'rows' in POST and 'cols' in POST:
             }
             REQUEST_VARS['target_cells'] = target_cells
         else:
-            REQUEST_VARS['error'] = "Las filas y columnas deben ser mayores a 0."
+            REQUEST_VARS['error'] = "Les rangées et les colonnes doivent être supérieures à 0."
     except ValueError:
-        REQUEST_VARS['error'] = "Por favor, ingresa valores válidos para filas y columnas."
+        REQUEST_VARS['error'] = "Veuillez saisir des valeurs valides pour les rangées et les colonnes."
 
 # Initialisation de la pioche
 if 'pioche' not in SESSION:
