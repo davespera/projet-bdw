@@ -138,13 +138,13 @@ SELECT
     longueur,            -- Mapping 'longueur'
     hauteur,             -- Mapping 'hauteur'
     couleur,             -- Mapping 'couleur'
-    (SELECT ville            -- Randomly select a 'ville' from the 'usine' table
+    (SELECT ville            -- Randomly select a 'ville' from 'usine'
      FROM usine
-     ORDER BY RANDOM()       -- PostgreSQL function for randomness
+     ORDER BY RANDOM()      
      LIMIT 1) AS ville,  
     CASE
-        WHEN longueur = largeur THEN 'Square'   -- If longueur equals largeur, it's a square
-        ELSE 'Rectangle'                        -- Otherwise, it's a rectangle
+        WHEN longueur = largeur THEN 'Square'   
+        ELSE 'Rectangle'                        
     END AS forme            -- Determine the 'forme' based on dimensions
 FROM legost.piece;
 
