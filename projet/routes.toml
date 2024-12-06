@@ -12,3 +12,8 @@ template = "grille_fixe.html"
 url = "grille_aleatoire"
 controleur = "controleurs/grille_aleatoire.py"
 template = "grille_aleatoire.html"
+
+[[routes]]
+url = "jeu"
+controleur = "controleurs/jeu.py"
+template = "jeu.html"

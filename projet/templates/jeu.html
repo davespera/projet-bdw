@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grille Aléatoire</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100vh;
+        }
+        td {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+        }
+        .target {
+            background-color: #ccc;
+        }
+        .brique {
+            background-color: #ffcc00;
+        }
+    </style>
+</head>
+<table>
+    {% if REQUEST_VARS['rows'] is defined and REQUEST_VARS['cols'] is defined %}
+        {% for row in range(REQUEST_VARS['rows']) %}
+            <tr>
+                {% for col in range(REQUEST_VARS['cols']) %}
+                    <td 
+                        {% if row in REQUEST_VARS['target_cells'] and col in REQUEST_VARS['target_cells'][row] %}
+                            class="target"
+                        {% elif row in REQUEST_VARS['placed_briques'] and col in REQUEST_VARS['placed_briques'][row] %}
+                            class="brique"
+                        {% endif %}
+                    ></td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <p>Rows and columns are not defined correctly.</p>
+    {% endif %}
+</table>
+<form id="grid-form" method="POST">
+    <label for="rows-input">Nombre de hauteur :</label>
+    <input type="number" id="rows-input" name="rows" value="{{ REQUEST_VARS['rows'] }}" min="1">
+    
+    <label for="cols-input">Nombre de longueur:</label>
+    <input type="number" id="cols-input" name="cols" value="{{ REQUEST_VARS['cols'] }}" min="1">
+
+    <label for="mode-select">Mode :</label>
+    <select id="mode-select" name="mode">
+        <option value="facile" {% if REQUEST_VARS['mode'] == 'facile' %}selected{% endif %}>Facile</option>
+        <option value="difficile" {% if REQUEST_VARS['mode'] == 'difficile' %}selected{% endif %}>Difficile</option>
+    </select>
+
+    <label for="max-turns-input">Nombre de tours maximum :</label>
+    <input type="number" id="max-turns-input" name="max_turns" value="{{ REQUEST_VARS['max_turns'] }}" min="1">
+
+    <button type="submit" name="generate_grid">Mettre à jour le tableau</button>
+</form>
+
+<form id="place-brique-form" method="POST">
+    <label for="brique-select">Sélectionnez une brique :</label>
+    <select id="brique-select" name="brique">
+        {% for brique in REQUEST_VARS['message_rand_briques'] %}
+            <option value="{{ brique }}">{{ brique }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="x-input">Position X :</label>
+    <input type="number" id="x-input" name="x" min="0" max="{{ REQUEST_VARS['rows'] - 1 }}">
+
+    <label for="y-input">Position Y :</label>
+    <input type="number" id="y-input" name="y" min="0" max="{{ REQUEST_VARS['cols'] - 1 }}">
+
+    <button type="submit">Placer la brique</button>
+</form>
+
+<p id="message">{{ REQUEST_VARS['message_brique'] }}</p>
+{% if POST['brique'] %}
+    <p>Vous avez pioché la brique : {{ POST['brique'][0] }}</p>
+    <p>{{ REQUEST_VARS['message_brique'] }}</p>
+{% endif %}
+
+<p>Score: {{ REQUEST_VARS['score'] }}</p>
+<p>Nombre de tours: {{ REQUEST_VARS['turns'] }}</p>
+{% if REQUEST_VARS['game_over'] %}
+    <p>Game Over! Votre score est {{ REQUEST_VARS['score'] }}.</p>
+{% endif %}
+{% endblock %}
