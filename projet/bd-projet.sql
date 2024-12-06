@@ -131,14 +131,21 @@ INSERT INTO Usine (ville, pays) VALUES
     ('Lille', 'France'), 
     ('Berlin', 'Germany');
 
-INSERT INTO Brique (id_B, largeur, longueur, hauteur, couleur, ville)
+INSERT INTO Brique (id_B, largeur, longueur, hauteur, couleur, ville, forme) --forme nom
 SELECT 
     id AS id_B,          -- Mapping 'id' to 'id_B'
     largeur,             -- Mapping 'largeur'
     longueur,            -- Mapping 'longueur'
     hauteur,             -- Mapping 'hauteur'
     couleur,             -- Mapping 'couleur'
-    'DefaultCity' AS ville  -- Setting a default value for 'ville'
+    (SELECT ville            -- Randomly select a 'ville' from the 'usine' table
+     FROM usine
+     ORDER BY RANDOM()       -- PostgreSQL function for randomness
+     LIMIT 1) AS ville,  
+    CASE
+        WHEN longueur = largeur THEN 'Square'   -- If longueur equals largeur, it's a square
+        ELSE 'Rectangle'                        -- Otherwise, it's a rectangle
+    END AS forme            -- Determine the 'forme' based on dimensions
 FROM legost.piece;
 
 -- Step 3: Insert into Partie
