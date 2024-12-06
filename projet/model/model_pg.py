@@ -109,3 +109,25 @@ def get_new_random_brique(connexion, excluded_briques):
         sql.SQL(', ').join(map(sql.Literal, excluded_briques))
     )
     return execute_select_query(connexion, query)
+
+def is_valid_brique(brique, mode):
+    if mode == "easy":
+        return brique['length'] <= 2 and brique['width'] <= 2
+    return True
+
+def is_valid_placement(grid, brique, position):
+    x, y = position
+    for dx in range(brique['length']):
+        for dy in range(brique['width']):
+            if grid[x+dx][y+dy] != 0:
+                return False
+    return True
+
+def place_brique_on_grid(grid, brique, position):
+    x, y = position
+    for dx in range(brique['length']):
+        for dy in range(brique['width']):
+            grid[x+dx][y+dy] = brique['id']
+
+def check_game_completion(grid):
+    return all(cell != 0 for row in grid for cell in row)

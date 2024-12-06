@@ -20,9 +20,6 @@
         .target {
             background-color: #ccc;
         }
-        .brique {
-            background-color: #ffcc00;
-        }
     </style>
 </head>
 <table>
@@ -33,8 +30,6 @@
                     <td 
                         {% if row in REQUEST_VARS['target_cells'] and col in REQUEST_VARS['target_cells'][row] %}
                             class="target"
-                        {% elif row in REQUEST_VARS['placed_briques'] and col in REQUEST_VARS['placed_briques'][row] %}
-                            class="brique"
                         {% endif %}
                     ></td>
                 {% endfor %}
@@ -51,44 +46,22 @@
     <label for="cols-input">Nombre de longueur:</label>
     <input type="number" id="cols-input" name="cols" value="{{ REQUEST_VARS['cols'] }}" min="1">
 
-    <label for="mode-select">Mode :</label>
-    <select id="mode-select" name="mode">
-        <option value="facile" {% if REQUEST_VARS['mode'] == 'facile' %}selected{% endif %}>Facile</option>
-        <option value="difficile" {% if REQUEST_VARS['mode'] == 'difficile' %}selected{% endif %}>Difficile</option>
-    </select>
-
-    <label for="max-turns-input">Nombre de tours maximum :</label>
-    <input type="number" id="max-turns-input" name="max_turns" value="{{ REQUEST_VARS['max_turns'] }}" min="1">
-
-    <button type="submit" name="generate_grid">Mettre à jour le tableau</button>
+    <button type="submit">Mettre à jour le tableau</button>
 </form>
 
-<form id="place-brique-form" method="POST">
+<!-- Formulaire de pioche -->
+<form id="pioche-form" method="POST">
     <label for="brique-select">Sélectionnez une brique :</label>
     <select id="brique-select" name="brique">
         {% for brique in REQUEST_VARS['message_rand_briques'] %}
             <option value="{{ brique }}">{{ brique }}</option>
         {% endfor %}
     </select>
-
-    <label for="x-input">Position X :</label>
-    <input type="number" id="x-input" name="x" min="0" max="{{ REQUEST_VARS['rows'] - 1 }}">
-
-    <label for="y-input">Position Y :</label>
-    <input type="number" id="y-input" name="y" min="0" max="{{ REQUEST_VARS['cols'] - 1 }}">
-
-    <button type="submit">Placer la brique</button>
+    <button type="submit">Soumettre</button>
 </form>
-
 <p id="message">{{ REQUEST_VARS['message_brique'] }}</p>
 {% if POST['brique'] %}
     <p>Vous avez pioché la brique : {{ POST['brique'][0] }}</p>
     <p>{{ REQUEST_VARS['message_brique'] }}</p>
-{% endif %}
-
-<p>Score: {{ REQUEST_VARS['score'] }}</p>
-<p>Nombre de tours: {{ REQUEST_VARS['turns'] }}</p>
-{% if REQUEST_VARS['game_over'] %}
-    <p>Game Over! Votre score est {{ REQUEST_VARS['score'] }}.</p>
 {% endif %}
 {% endblock %}
