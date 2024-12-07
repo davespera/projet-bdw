@@ -1,4 +1,4 @@
-from model.model_pg import get_random_briques, get_brique_by_id, get_new_random_brique
+from model.model_pg import get_random_briques, get_random_briques_diff, get_brique_by_id, get_new_random_brique, get_new_random_brique_diff
 
 
 
@@ -7,6 +7,11 @@ if 'rows' not in REQUEST_VARS:
     REQUEST_VARS['rows'] = 9  # Valeur par défaut pour rows
 if 'cols' not in REQUEST_VARS:
     REQUEST_VARS['cols'] = 8  # Valeur par défaut pour cols
+
+if 'facile' in POST:
+    SESSION['mode'] = 'facile'
+elif 'difficile' in POST:
+    SESSION['mode'] = 'difficile'
 
 
 
@@ -81,7 +86,10 @@ grid = generate_target_cells(rows, cols)
 
 # Initialisation de la pioche
 if 'pioche' not in SESSION:
-    res = get_random_briques(SESSION['CONNEXION'])
+    if SESSION['mode'] == 'facile':
+        res = get_random_briques(SESSION['CONNEXION'])
+    elif SESSION['mode'] == 'difficile':
+        res = get_random_briques_diff(SESSION['CONNEXION'])
     if res:
         briques = [brique[0] for brique in res]  
         SESSION['pioche'] = briques
@@ -102,7 +110,10 @@ if 'brique' in POST:
         SESSION['removed_briques'].append(brique[0])
         
         # Get a new random brique that is not in the removed list
-        new_brique_res = get_new_random_brique(SESSION['CONNEXION'], SESSION['removed_briques'])
+        if SESSION['mode'] == 'facile':
+            new_brique_res = get_new_random_brique(SESSION['CONNEXION'], SESSION['removed_briques'])
+        elif SESSION['mode'] == 'difficile':
+            new_brique_res = get_new_random_brique_diff(SESSION['CONNEXION'], SESSION['removed_briques'])
         if new_brique_res:
             new_brique = new_brique_res[0]
             SESSION['pioche'].append(new_brique[0])  # Append only the brique ID

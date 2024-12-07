@@ -97,6 +97,10 @@ def get_random_briques(connexion):
     query = sql.SQL("SELECT id_B, longueur, largeur FROM Brique WHERE longueur <= 2 OR largeur <= 2 ORDER BY RANDOM() LIMIT 4")
     return execute_select_query(connexion, query)
 
+def get_random_briques_diff(connexion):
+    query = sql.SQL("SELECT id_B, longueur, largeur FROM Brique ORDER BY RANDOM() LIMIT 4")
+    return execute_select_query(connexion, query)
+
 def get_brique_by_id(connexion, brique_id):
     query = sql.SQL("SELECT id_B, couleur, longueur, largeur, forme, mots_cles FROM brique WHERE id_B = %s")
     return execute_select_query(connexion, query, [brique_id])
@@ -106,6 +110,15 @@ def get_new_random_brique(connexion, excluded_briques):
     Retourne une nouvelle brique aléatoire qui n'est pas dans la liste des briques exclues.
     """
     query = sql.SQL("SELECT id_B, longueur, largeur FROM Brique WHERE (longueur <= 2 OR largeur <= 2) AND id_B NOT IN ({}) ORDER BY RANDOM() LIMIT 1").format(
+        sql.SQL(', ').join(map(sql.Literal, excluded_briques))
+    )
+    return execute_select_query(connexion, query)
+
+def get_new_random_brique_diff(connexion, excluded_briques):
+    """
+    Retourne une nouvelle brique aléatoire qui n'est pas dans la liste des briques exclues.
+    """
+    query = sql.SQL("SELECT id_B, longueur, largeur FROM Brique WHERE id_B NOT IN ({}) ORDER BY RANDOM() LIMIT 1").format(
         sql.SQL(', ').join(map(sql.Literal, excluded_briques))
     )
     return execute_select_query(connexion, query)
