@@ -11,6 +11,10 @@ if 'cols' not in REQUEST_VARS:
 if 'difficulty' in POST:
     SESSION['difficulty'] = POST['difficulty'][0]
 
+if 'turn_counter' not in SESSION:
+    SESSION['turn_counter'] = 0
+
+
 # Function to generate target cells in the grid
 def generate_target_cells(rows, cols):
     # Initialize the grid
@@ -105,6 +109,8 @@ if 'brique' in POST:
         message = f"La brique {brique[0]} est de couleur {brique[1]}, de longueur {brique[2]} et de largeur {brique[3]}."
         SESSION['pioche'].remove(brique[0])
         SESSION['removed_briques'].append(brique[0])
+        SESSION['turn_counter'] += 1
+        REQUEST_VARS['turn_counter'] = SESSION['turn_counter']
         
         # Get a new random brique that is not in the removed list
         if SESSION.get('difficulty') == "difficile":
