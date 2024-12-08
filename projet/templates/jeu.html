@@ -39,15 +39,6 @@
         <p>Rows and columns are not defined correctly.</p>
     {% endif %}
 </table>
-<form id="grid-form" method="POST">
-    <label for="rows-input">Nombre de hauteur :</label>
-    <input type="number" id="rows-input" name="rows" value="{{ REQUEST_VARS['rows'] }}" min="1">
-    
-    <label for="cols-input">Nombre de longueur:</label>
-    <input type="number" id="cols-input" name="cols" value="{{ REQUEST_VARS['cols'] }}" min="1">
-
-    <button type="submit">Mettre à jour le tableau</button>
-</form>
 
 <!-- Formulaire de pioche -->
 <form id="pioche-form" method="POST">

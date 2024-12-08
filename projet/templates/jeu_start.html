@@ -20,10 +20,12 @@
         <input type="number" id="max_tours" name="max_tours"><br><br>
         
         <label for="mode">Mode :</label>
-        <select id="mode" name="mode" required>
-            <option value="facile">Facile</option>
-            <option value="difficile">Difficile</option>
-        </select><br><br>
+        <label>
+            <input type="radio" name="difficulty" value="facile" required> Facile
+        </label>
+        <label>
+            <input type="radio" name="difficulty" value="difficile" required> Difficile
+        </label><br><br>
         
         <button type="submit">Démarrer la partie</button>
     </form>
