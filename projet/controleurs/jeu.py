@@ -63,6 +63,15 @@ def generate_target_cells(rows, cols):
     REQUEST_VARS['target_cells'] = target_cells
     return grid
 
+if 'grid' not in SESSION:
+    rows, cols = REQUEST_VARS['rows'], REQUEST_VARS['cols']
+    grid = generate_target_cells(rows, cols)
+    SESSION['grid'] = grid  # Store the generated grid in the session
+    SESSION['target_cells'] = REQUEST_VARS['target_cells']  # Store target cells for reference
+else:
+    grid = SESSION['grid']  # Retrieve the stored grid
+    REQUEST_VARS['target_cells'] = SESSION['target_cells']  # Retrieve target cells
+
 # Process POST data for rows and cols if present
 if 'rows' in POST and 'cols' in POST:
     try:

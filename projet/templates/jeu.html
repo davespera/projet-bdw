@@ -28,7 +28,7 @@
             <tr>
                 {% for col in range(REQUEST_VARS['cols']) %}
                     <td 
-                        {% if row in REQUEST_VARS['target_cells'] and col in REQUEST_VARS['target_cells'][row] %}
+                        {% if row in SESSION['target_cells'] and col in SESSION['target_cells'][row] %}
                             class="target"
                         {% endif %}
                     ></td>
