@@ -124,3 +124,11 @@ td {
 .target {
     background-color: #ccc;
 }
+
+.filled {
+    background-color: #f08080; /* Light Coral color for filled cells */
+}
+
+.completed {
+    background-color: #90ee90; /* Light green color for completed target cells */
+}
