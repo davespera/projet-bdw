@@ -151,6 +151,7 @@ if 'brique' in POST:
                     message = f"Erreur: La brique ({width}x{height}) dépasse les limites de la grille."
                     #Insertion pas possible à cause d'une design incorrecte de la BD
                     #insert_tour(SESSION['CONNEXION'], SESSION['turn_counter'], SESSION['DATE'], brique_id, message)
+                    REQUEST_VARS['score'] = SESSION['score']
                 else:
                     valid_placement = True
                     message = f"Placement de la brique {brique_id} à partir de ({coord_x}, {coord_y})."
