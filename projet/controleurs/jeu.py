@@ -40,43 +40,26 @@ def generate_target_cells(rows, cols):
         placed = False
 
         # Attempt to expand from existing targets
-        for start_x, start_y in random.sample(targets, len(targets)):
-            directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-            random.shuffle(directions)
-
-            for dx, dy in directions:
-                nx, ny = start_x + dx, start_y + dy
-                if is_valid_cell(nx, ny):
-                    grid[nx][ny] = 1
-                    targets.append((nx, ny))
-                    placed = True
-                    break
-
+        random_x, random_y = random.choice(targets)
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        random.shuffle(directions)
+        for dx, dy in directions:
+            nx, ny = random_x + dx, random_y + dy
+            if is_valid_cell(nx, ny):
+                grid[nx][ny] = 1
+                targets.append((nx, ny))
+                placed = True
+                break
             if placed:
-                break  # Stop after placing one cell
+                break
 
-        # If no valid cells are found for any target, retry randomly
-        if not placed:
-            for _ in range(100):  # Retry up to 100 times to avoid infinite loops
-                random_x, random_y = random.choice(targets)
-                directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-                random.shuffle(directions)
-                for dx, dy in directions:
-                    nx, ny = random_x + dx, random_y + dy
-                    if is_valid_cell(nx, ny):
-                        grid[nx][ny] = 1
-                        targets.append((nx, ny))
-                        placed = True
-                        break
-                if placed:
-                    break
 
-        if not placed:
-            print(f"Warning: Unable to place additional targets. Current count: {len(targets)}")
-            break
-
+    target_cells = {}
+    for x, y in targets:
+        if x not in target_cells:
+            target_cells[x] = []
+        target_cells[x].append(y)
     # Convert grid to target_cells format for template
-    target_cells = {i: [j for j in range(cols) if grid[i][j] == 1] for i in range(rows)}
     REQUEST_VARS['target_cells'] = target_cells
     return grid
 
