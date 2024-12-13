@@ -123,6 +123,10 @@ def get_new_random_brique_diff(connexion, excluded_briques):
     )
     return execute_select_query(connexion, query)
 
+def insert_tour(connexion, numero_T, date_debut, id_B, description_Action):
+    query = sql.SQL("INSERT INTO Tour (prenom_j, numero_T, date_debut, id_B, description_Action) VALUES (%s, %s, %s, %s, %s)")
+    return execute_other_query(connexion, query, ["default", numero_T, date_debut, id_B, description_Action])
+
 def is_valid_brique(brique, mode):
     if mode == "easy":
         return brique['length'] <= 2 and brique['width'] <= 2

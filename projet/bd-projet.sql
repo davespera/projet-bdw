@@ -95,7 +95,7 @@ CREATE TABLE Tour (
   date_debut         VARCHAR(42) NOT NULL,
   prenom_J           VARCHAR(42) NOT NULL,
   id_B      INTEGER NOT NULL CHECK (id_B >= 0),
-  description_Action VARCHAR(42)
+  description_Action VARCHAR(100)
 );
 
 CREATE TABLE Usine (

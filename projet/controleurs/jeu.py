@@ -1,4 +1,4 @@
-from model.model_pg import get_random_briques, get_random_briques_diff, get_brique_by_id, get_new_random_brique, get_new_random_brique_diff
+from model.model_pg import get_random_briques, get_random_briques_diff, get_brique_by_id, get_new_random_brique, get_new_random_brique_diff, insert_tour
 
 # Valeurs par défaut si elles ne sont pas présentes dans REQUEST_VARS
 if 'rows' not in REQUEST_VARS:
@@ -11,6 +11,9 @@ if 'difficulty' in POST:
 
 if 'turn_counter' not in SESSION:
     SESSION['turn_counter'] = 0
+
+if 'score' not in SESSION:
+    SESSION['score'] = 0
 
 # Function to generate target cells in the grid
 def generate_target_cells(rows, cols):
@@ -146,8 +149,14 @@ if 'brique' in POST:
                 # Check if the brique fits entirely within the grid bounds
                 if coord_x + height > len(grid) or coord_y + width > len(grid[0]):
                     message = f"Erreur: La brique ({width}x{height}) dépasse les limites de la grille."
+                    #Insertion pas possible à cause d'une design incorrecte de la BD
+                    #insert_tour(SESSION['CONNEXION'], SESSION['turn_counter'], SESSION['DATE'], brique_id, message)
                 else:
                     valid_placement = True
+                    message = f"Placement de la brique {brique_id} à partir de ({coord_x}, {coord_y})."
+                    #insert_tour(SESSION['CONNEXION'], SESSION['turn_counter'], SESSION['DATE'], brique_id, message)
+                    SESSION['score'] += 1
+                    REQUEST_VARS['score'] = SESSION['score']
 
                     # Check if all cells are valid for placement
                     for x in range(coord_x, coord_x + height):
