@@ -107,7 +107,7 @@ REQUEST_VARS['rows'], REQUEST_VARS['cols'] = rows, cols
 
 # Generate grid if not already in SESSION or after POST update
 if 'grid' not in SESSION:
-    print(f"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbGenerating grid with rows={rows}, cols={cols}")
+    print(f"Generating grid with rows={rows}, cols={cols}")
     grid = generate_target_cells(rows, cols)
     SESSION['grid'] = grid
     SESSION['target_cells'] = REQUEST_VARS['target_cells']
