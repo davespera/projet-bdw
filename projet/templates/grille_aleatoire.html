@@ -34,19 +34,4 @@
     <button type="submit">Mettre à jour le tableau</button>
 </form>
 
-<!-- Formulaire de pioche -->
-<form id="pioche-form" method="POST">
-    <label for="brique-select">Sélectionnez une brique :</label>
-    <select id="brique-select" name="brique">
-        {% for brique in REQUEST_VARS['message_rand_briques'] %}
-            <option value="{{ brique }}">{{ brique }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Soumettre</button>
-</form>
-<p id="message">{{ REQUEST_VARS['message_brique'] }}</p>
-{% if POST['brique'] %}
-    <p>Vous avez pioché la brique : {{ POST['brique'][0] }}</p>
-    <p>{{ REQUEST_VARS['message_brique'] }}</p>
-{% endif %}
 {% endblock %}
