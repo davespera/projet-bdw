@@ -5,18 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grille Aléatoire</title>
-    <link type="text/css" rel="stylesheet" href="/projet/static/css/style.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100vh;
+        }
+        td {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+        }
+        .target {
+            background-color: #ccc;
+        }
+
+        .filled {
+            background-color: #f08080; /* Light Coral color for filled cells */
+        }
+
+        .completed {
+            background-color: #90ee90; /* Light green color for completed target cells */
+        }
+        .empty {
+            background-color: #fff; /* White for empty cells */
+        }
+    </style>
 </head>
+
 <table>
     {% if REQUEST_VARS['rows'] is defined and REQUEST_VARS['cols'] is defined %}
         {% for row in range(REQUEST_VARS['rows']) %}
             <tr>
                 {% for col in range(REQUEST_VARS['cols']) %}
-                    <td 
-                        {% if row in SESSION['target_cells'] and col in SESSION['target_cells'][row] %}
-                            class="target"
+                    <td class="
+                        {% if REQUEST_VARS['grid'][row][col] == 3 %}
+                            completed
+                        {% elif REQUEST_VARS['grid'][row][col] == 1 %}
+                            target
+                        {% elif REQUEST_VARS['grid'][row][col] == 2 %}
+                            filled
+                        {% else %}
+                            empty
                         {% endif %}
-                    ></td>
+                    "></td>
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -35,9 +68,18 @@
             <option value="{{ brique }}">{{ brique }}</option>
         {% endfor %}
     </select>
+
+    <label for="coord-x">Coordonnée X (ligne):</label>
+    <input type="number" id="coord-x" name="coord_x" min="0" required>
+
+    <label for="coord-y">Coordonnée Y (colonne):</label>
+    <input type="number" id="coord-y" name="coord_y" min="0" required>
+    
     <button type="submit">Soumettre</button>
 </form>
+
 <p id="message">{{ REQUEST_VARS['message_brique'] }}</p>
+
 {% if POST['brique'] %}
     <p>Vous avez pioché la brique : {{ POST['brique'][0] }}</p>
     <p>{{ REQUEST_VARS['message_brique'] }}</p>
