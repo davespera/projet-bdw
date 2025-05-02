@@ -87,9 +87,3 @@ Liste des options du serveur :
 * -p, --port : numéro de port (par défaut, 4242)
 * -r, --routes : chemin vers le fichier de routage (par défaut, <directory>/routes.toml)
 * -t, --templates : chemin vers un autre répertoire de templates (par défaut, <directory>/templates/)
-
-
-## Contact
-
-Fabien Duchateau (Université Claude Bernard Lyon 1), <prénom.nom@univ-lyon1.fr>
-
